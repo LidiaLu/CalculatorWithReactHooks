@@ -5,9 +5,18 @@ import { CalculatorContext } from '../contexts/CalculatorContext'
 
 const InputBlock = () => {
     const numsArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0]
-
     const { dispatch, maxDigitsToEnter } = useContext(CalculatorContext)
     const [equationValues, setEquationValues] = useState([]);
+    const [inputDigits, setDigits] = useState([])
+
+    const handleDigitInput = e => {
+        console.log(inputDigits)
+        if (inputDigits.length < 17) {
+            setDigits([...inputDigits, e.target.value])
+            dispatch({ type: "INPUT_DIGIT", digits: e.target.value })
+        } else dispatch({ type: "MAX_REACHED", equationValues })
+
+    }
 
     const handleInput = e => {
         if (equationValues.length < 17) {
@@ -17,6 +26,8 @@ const InputBlock = () => {
             dispatch({ type: "MAX_REACHED", equationValues })
         }
     }
+
+
 
     const handleCalculation = (e) => {
         e.preventDefault()
@@ -32,9 +43,9 @@ const InputBlock = () => {
         <InputsWrapper>
             <NumsButtonsWrapper>
                 {numsArray.map(num =>
-                    <NumberButton key={uuid()} type="button" name={num} value={num} onClick={handleInput}>{num}</NumberButton>)
+                    <NumberButton key={uuid()} type="button" name={num} value={num} onClick={handleDigitInput}>{num}</NumberButton>)
                 }
-                <NumberButton key={uuid()} type="button" name="decimal" value="." onClick={handleInput} >,</NumberButton>
+                <NumberButton key={uuid()} type="button" name="decimal" value="." onClick={handleDigitInput} >,</NumberButton>
                 <NumberButton danger key={uuid()} type="button" name="clear" value="clear" onClick={handleClear} >CL</NumberButton>
 
             </NumsButtonsWrapper>

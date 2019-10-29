@@ -1,10 +1,13 @@
 export const InputReducer = (state, action) => {
-    // console.log("state in reducer:", typeof (state), state)
-    // console.log("action in reducer: ", typeof (action), action)
+
 
     switch (action.type) {
         // case "MAX_REACHED":
         //     return [...action.equationValues]
+        case "INPUT_DIGIT":
+            console.log("state in reducer:", typeof (state), state)
+            console.log("action in reducer: ", typeof (action), action)
+            return [...state, action.digits]
         case 'CALCULATE':
             const equation = [...state].join("")
             const res = eval(equation)

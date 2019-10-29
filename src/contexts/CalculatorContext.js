@@ -5,10 +5,10 @@ export const CalculatorContext = createContext();
 
 
 const CalculatorContextProvider = props => {
-    const [equationValues, dispatch] = useReducer(InputReducer, [])
+    const [digits, dispatch] = useReducer(InputReducer, [])
     const maxDigitsToEnter = 17
     return (
-        <CalculatorContext.Provider value={{ maxDigitsToEnter, equationValues, dispatch }}>{props.children}</CalculatorContext.Provider>
+        <CalculatorContext.Provider value={{ digits, maxDigitsToEnter, dispatch }}>{props.children}</CalculatorContext.Provider>
     )
 
 }

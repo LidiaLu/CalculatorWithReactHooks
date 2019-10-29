@@ -5,11 +5,12 @@ import { CalculatorContext } from "../contexts/CalculatorContext"
 const Display = () => {
     const { equationValues, maxDigitsToEnter } = useContext(CalculatorContext);
     // const maxIsReached = equationValues.length === maxDigitsToEnter ? true : false;
-    console.log(equationValues)
+    // console.log(equationValues)
     return (
         <React.Fragment>
             <p></p>
-            <DisplayWrapper>{equationValues}
+            <DisplayWrapper>
+                {equationValues}
                 {/* {maxIsReached && <p>Only {maxDigitsToEnter} digits are allowed </p>} */}
             </DisplayWrapper>
 
