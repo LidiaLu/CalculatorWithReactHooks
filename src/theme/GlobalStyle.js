@@ -7,7 +7,5 @@ body{
     padding: 0;
     margin: 0;
     font-family: ${props => props.theme.bodyFont};
-    /* width: 100%; */
-   /* box-sizing: border-box; */
 }
 `;

@@ -23,7 +23,6 @@ function App() {
           <CalculatorWrapper>
             <CalculatorContextProvider>
               <Display />
-
               <InputBlock />
             </CalculatorContextProvider>
           </CalculatorWrapper>

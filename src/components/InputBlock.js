@@ -1,30 +1,50 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import styled from "styled-components"
 import uuid from "uuid/v1"
 import { CalculatorContext } from '../contexts/CalculatorContext'
 
 const InputBlock = () => {
-    
-    const numsArray = []
-    for (let index = 9; index > -1; index--) {
-        const button = createNumButton(index)
-        if (index === 0) {
-            numsArray.push(button)
-        } else numsArray.unshift(button)
+    const numsArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0]
 
+    const { dispatch, maxDigitsToEnter } = useContext(CalculatorContext)
+    const [equationValues, setEquationValues] = useState([]);
+
+    const handleInput = e => {
+        if (equationValues.length < 17) {
+            setEquationValues([...equationValues, e.target.value])
+            dispatch({ type: "INPUT", inputValue: e.target.value })
+        } else {
+            dispatch({ type: "MAX_REACHED", equationValues })
+        }
+    }
+
+    const handleCalculation = (e) => {
+        e.preventDefault()
+        dispatch({ type: 'CALCULATE', equationValues })
+    }
+
+    const handleClear = () => {
+        setEquationValues([])
+        dispatch({ type: 'CLEAR', equationValues: "" })
     }
 
     return (
         <InputsWrapper>
             <NumsButtonsWrapper>
-                {numsArray}
-                <Decimal />
+                {numsArray.map(num =>
+                    <NumberButton key={uuid()} type="button" name={num} value={num} onClick={handleInput}>{num}</NumberButton>)
+                }
+                <NumberButton key={uuid()} type="button" name="decimal" value="." onClick={handleInput} >,</NumberButton>
+                <NumberButton danger key={uuid()} type="button" name="clear" value="clear" onClick={handleClear} >CL</NumberButton>
+
             </NumsButtonsWrapper>
             <OperatorsWrapper>
-                <NumberButton key={uuid()} type="button" name="add" value="+" >+</NumberButton>
-                <NumberButton key={uuid()} type="button" name="subtract" value="-" >-</NumberButton>
-                <NumberButton key={uuid()} type="button" name="multiply" value="*" >x</NumberButton>
-                <NumberButton key={uuid()} type="button" name="divide" value="/" >/</NumberButton>
+                <OperatorButton secondary key={uuid()} type="button" name="add" value="+" onClick={handleInput}>+</OperatorButton>
+                <OperatorButton secondary key={uuid()} type="button" name="subtract" value="-" onClick={handleInput}>-</OperatorButton>
+                <OperatorButton secondary key={uuid()} type="button" name="multiply" value="*" onClick={handleInput}>x</OperatorButton>
+                <OperatorButton secondary key={uuid()} type="button" name="divide" value="/" onClick={handleInput}>/</OperatorButton>
+                <OperatorButton primary key={uuid()} type="submit" name="equals" value="=" onClick={handleCalculation} >=</OperatorButton>
+
             </OperatorsWrapper>
         </InputsWrapper>
     )
@@ -32,33 +52,16 @@ const InputBlock = () => {
 
 export default InputBlock
 
-export const Decimal = () => {
-    return (
-        <NumberButton decimal>,</NumberButton>
-    )
-}
-
-export const createNumButton = (number) => {
-    switch (number) {
-        case 0:
-            return <NumberButton double key={uuid()} type="button" name={number} value={number}>{number}</NumberButton>
-        default:
-            return <NumberButton key={uuid()} type="button" name={number} value={number} >{number}</NumberButton>
-    }
-}
-
 
 export const InputsWrapper = styled.div`
 display: flex;
-justify-content: space-around;
-border: blue 2px solid;
-width: 325px;
+width: 330px;
 `;
 
 export const OperatorsWrapper = styled.div`
 display: flex;
 flex-direction: column;
-align-self: flex-end;
+align-self: flex-start;
 `
     ;
 
@@ -68,7 +71,7 @@ width: 240px;
 display: flex;
 flex-wrap: wrap;
 margin: 0 auto;
-justify-content: center;
+justify-content: flex-start;
 `
 
 export const NumberButton = styled.button`
@@ -79,5 +82,16 @@ border: 1px gray solid;
 font-size: 2rem;
 padding: 0;
 cursor: pointer;
+background-color: ${props => props.danger && "red"};
+color: ${props => props.danger && "white"};
+
 
 `
+export const OperatorButton = styled.button`
+width: ${props => props.double ? "160px" : "80px"};
+height: 64px;
+font-size: 2rem;
+background-color: ${props => props.primary && "orange"};
+background-color: ${props => props.secondary && "brown"};
+
+`;

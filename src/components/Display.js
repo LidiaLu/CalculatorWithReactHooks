@@ -1,14 +1,25 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import styled from "styled-components"
+import { CalculatorContext } from "../contexts/CalculatorContext"
 
 const Display = () => {
+    const { equationValues, maxDigitsToEnter } = useContext(CalculatorContext);
+    // const maxIsReached = equationValues.length === maxDigitsToEnter ? true : false;
+    console.log(equationValues)
     return (
-        <DisplayWrapper>this is display</DisplayWrapper>)
+        <React.Fragment>
+            <p></p>
+            <DisplayWrapper>{equationValues}
+                {/* {maxIsReached && <p>Only {maxDigitsToEnter} digits are allowed </p>} */}
+            </DisplayWrapper>
+
+        </React.Fragment>
+    )
 }
 
 export default Display
 
-export const DisplayWrapper = styled.p`
+export const DisplayWrapper = styled.div`
 margin: 0;
 height: 80px;
 padding:20px;
